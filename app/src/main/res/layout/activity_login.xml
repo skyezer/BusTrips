@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    android:focusableInTouchMode="true"
+    android:textAlignment="center"
+    android:visibility="visible"
+    tools:context=".Login">
+
+    <RelativeLayout
+        android:layout_width="409dp"
+        android:layout_height="729dp"
+        android:backgroundTint="@color/dark_blue"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <ImageView
+            android:id="@+id/cpaclogo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="155dp"
+            android:layout_marginTop="40dp"
+            android:layout_marginEnd="155dp"
+            app:srcCompat="@drawable/cpaclogo" />
+
+
+
+        <TextView
+            android:id="@+id/forgot"
+            android:layout_width="wrap_content"
+            android:layout_height="29dp"
+            android:layout_below="@+id/password"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="31dp"
+            android:layout_marginTop="21dp"
+            android:clickable="true"
+            android:fontFamily="@font/bold"
+            android:text="Forgot Password?"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            app:autoSizeMaxTextSize="16sp"
+            app:autoSizeMinTextSize="10sp"
+            app:autoSizeStepGranularity="1sp"
+            app:autoSizeTextType="uniform" />
+
+
+        <EditText
+            android:id="@+id/student_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/bustrips"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="23dp"
+            android:layout_marginTop="50dp"
+            android:layout_marginEnd="23dp"
+            android:background="@drawable/round_border"
+            android:drawableStart="@drawable/user_1"
+            android:drawablePadding="10dp"
+            android:ems="10"
+            android:focusable="true"
+            android:fontFamily="@font/regular"
+            android:hint="ID Number"
+            android:inputType="number"
+            android:padding="16dp"
+            android:textColor="@color/black"
+            android:textColorHint="@color/gray" />
+
+        <EditText
+            android:id="@+id/password"
+            android:layout_width="347dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/student_id"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="23dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="23dp"
+            android:background="@drawable/round_border"
+            android:drawableStart="@drawable/padlock"
+            android:drawablePadding="10dp"
+            android:ems="10"
+            android:fontFamily="@font/regular"
+
+            android:hint="Password"
+            android:inputType="textPassword"
+            android:padding="16dp"
+            android:textColor="@color/black"
+            android:textColorHint="@color/gray" />
+
+        <include
+            android:id="@+id/login"
+            layout="@layout/progress_btn_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/password"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="23dp"
+            android:visibility="visible" />
+
+        <TextView
+            android:id="@+id/bustrips"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/cpaclogo"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="36dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="36dp"
+            android:autoSizeMaxTextSize="45sp"
+            android:autoSizeMinTextSize="30sp"
+            android:autoSizeStepGranularity="1sp"
+            android:autoText="true"
+            android:fontFamily="@font/bold"
+            android:gravity="center|center_horizontal|center_vertical"
+            android:text="Bus Trips"
+            android:textColor="@color/white"
+            android:textSize="45sp" />
+
+
+    </RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
+

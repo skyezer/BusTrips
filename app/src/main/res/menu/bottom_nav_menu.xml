@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:title="Passengers"
+        android:icon="@drawable/ic_baseline_directions_bus_24"
+        android:id="@+id/passengers"/>
+    <item android:title="Sync"
+        android:icon="@drawable/ic_baseline_sync_24"
+        android:id="@+id/sync"/>
+    <item android:title="Profile"
+        android:icon="@drawable/ic_baseline_person_24"
+        android:id="@+id/profile"/>
+</menu>
