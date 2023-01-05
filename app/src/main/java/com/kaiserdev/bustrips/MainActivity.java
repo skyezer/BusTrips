@@ -199,9 +199,9 @@ public class MainActivity extends AppCompatActivity {
     private void replaceFragment(Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         fragmentTransaction.replace(R.id.frameLayout,fragment);
         fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.setCustomAnimations(R.anim.enter_anim, R.anim.exit_anim);
         fragmentTransaction.commit();
     }
 
