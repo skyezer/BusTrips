@@ -3,6 +3,11 @@ package com.kaiserdev.bustrips;
 import static com.kaiserdev.bustrips.MainActivity.DESTINATION_KEY;
 import static com.kaiserdev.bustrips.MainActivity.SHARED_PREFS;
 import static com.kaiserdev.bustrips.MainActivity.STUDENT_ID_KEY;
+import static com.kaiserdev.bustrips.MainActivity.TEMP_PASSENGER_DESTINATION_ID_KEY;
+import static com.kaiserdev.bustrips.MainActivity.TEMP_PASSENGER_DESTINATION_KEY;
+import static com.kaiserdev.bustrips.MainActivity.TEMP_PASSENGER_ID_KEY;
+import static com.kaiserdev.bustrips.MainActivity.TEMP_PASSENGER_NAME_KEY;
+import static com.kaiserdev.bustrips.MainActivity.destination_id_list;
 import static com.kaiserdev.bustrips.MainActivity.destination_list;
 
 import android.content.Context;
@@ -158,28 +163,44 @@ public class PassengerFragment extends Fragment {
                         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                         builder.setTitle("Result");
                         builder.setMessage(id_num + "\n" + stud_name + "\n" + course);
-                        builder.setSingleChoiceItems(destination_list.toArray(new CharSequence[0]), -1, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int which) {
-                                String selectedOption = destination_list.get(which);
-                                // Do something with the selected option...
-                            }
-                        });
+
                         builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
 //                                builder.setView(sp);
                                 builder.setTitle("Destination");
                                 builder.setMessage(null);
+                                builder.setSingleChoiceItems(destination_list.toArray(new CharSequence[0]), -1, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int which) {
+                                        String selectedDestination = destination_list.get(which);
+                                        String selectedDestination_id = destination_id_list.get(which);
+
+                                        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
+                                        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+                                        editor.putString(TEMP_PASSENGER_ID_KEY, id_num);
+                                        editor.putString(TEMP_PASSENGER_NAME_KEY, stud_name);
+                                        editor.putString(TEMP_PASSENGER_DESTINATION_ID_KEY, selectedDestination_id);
+                                        editor.putString(TEMP_PASSENGER_DESTINATION_KEY, selectedDestination);
+                                        editor.apply();
+                                    }
+                                });
                                 builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialogInterface, int i) {
+                                        //TODO clear temp passenger data
+
+                                        String name = sharedPreferences.getString(TEMP_PASSENGER_NAME_KEY,null);
+                                        String destination_id = sharedPreferences.getString(TEMP_PASSENGER_DESTINATION_ID_KEY,null);
+                                        String destination = sharedPreferences.getString(TEMP_PASSENGER_DESTINATION_KEY,null);
+
+                                        Toast.makeText(getContext(),name + " is added",Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getContext(),destination_id + " " + destination,Toast.LENGTH_SHORT).show();
+
                                         dialogInterface.dismiss();
                                     }
                                 }).create().show();
-                                //TODO fix this
-
-//                                dialogInterface.dismiss();
                             }
                         }).show();
                     } catch (JSONException e) {

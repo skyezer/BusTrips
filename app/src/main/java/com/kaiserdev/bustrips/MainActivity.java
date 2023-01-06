@@ -36,12 +36,17 @@ public class MainActivity extends AppCompatActivity {
     ActivityMainBinding binding;
 
     public static final String SHARED_PREFS = "shared_prefs";
+
     public static final String STUDENT_ID_KEY = "student_id_key";
     public static final String FNAME_KEY = "fname_key";
     public static final String LNAME_KEY = "lname_key";
     public static final String PROFILE_PIC_KEY = "profile_pic_key";
+
     public static final String TEMP_PASSENGER_ID_KEY = "temp_passenger_id_key";
     public static final String TEMP_PASSENGER_NAME_KEY = "temp_passenger_name_key";
+    public static final String TEMP_PASSENGER_DESTINATION_KEY = "temp_passenger_destination_key";
+    public static final String TEMP_PASSENGER_DESTINATION_ID_KEY = "temp_passenger_destination_id_key";
+
     public static final String DESTINATION_KEY = "destination_key";
     public static final String DRIVER_KEY = "driver_key";
 

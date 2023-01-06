@@ -7,6 +7,7 @@ import static com.kaiserdev.bustrips.MainActivity.FNAME_KEY;
 import static com.kaiserdev.bustrips.MainActivity.LNAME_KEY;
 import static com.kaiserdev.bustrips.MainActivity.PROFILE_PIC_KEY;
 import static com.kaiserdev.bustrips.MainActivity.destination_fare_list;
+import static com.kaiserdev.bustrips.MainActivity.destination_id_list;
 import static com.kaiserdev.bustrips.MainActivity.destination_list;
 
 import android.content.Context;
@@ -128,7 +129,10 @@ public class ProfileFragment extends Fragment {
                                 editor.putString(PROFILE_PIC_KEY, null);
                                 editor.putString(DESTINATION_KEY, null);
                                 editor.apply();
+
+                                destination_id_list.clear();
                                 destination_list.clear();
+                                destination_fare_list.clear();
 
                                 Intent intent = new Intent(getActivity(), Login.class);
                                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
