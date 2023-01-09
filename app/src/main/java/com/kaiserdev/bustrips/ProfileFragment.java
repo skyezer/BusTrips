@@ -1,44 +1,45 @@
 package com.kaiserdev.bustrips;
 
 import static com.kaiserdev.bustrips.MainActivity.DESTINATION_KEY;
+import static com.kaiserdev.bustrips.MainActivity.DRIVER_DATA_ID_KEY;
+import static com.kaiserdev.bustrips.MainActivity.DRIVER_DATA_KEY;
+import static com.kaiserdev.bustrips.MainActivity.DRIVER_KEY;
 import static com.kaiserdev.bustrips.MainActivity.SHARED_PREFS;
 import static com.kaiserdev.bustrips.MainActivity.STUDENT_ID_KEY;
 import static com.kaiserdev.bustrips.MainActivity.FNAME_KEY;
 import static com.kaiserdev.bustrips.MainActivity.LNAME_KEY;
 import static com.kaiserdev.bustrips.MainActivity.PROFILE_PIC_KEY;
+import static com.kaiserdev.bustrips.MainActivity.TEMP_PASSENGER_DESTINATION_ID_KEY;
+import static com.kaiserdev.bustrips.MainActivity.TEMP_PASSENGER_DESTINATION_KEY;
+import static com.kaiserdev.bustrips.MainActivity.TEMP_PASSENGER_NAME_KEY;
+import static com.kaiserdev.bustrips.MainActivity.VEHICLE_DATA_ID_KEY;
+import static com.kaiserdev.bustrips.MainActivity.VEHICLE_DATA_KEY;
 import static com.kaiserdev.bustrips.MainActivity.destination_fare_list;
 import static com.kaiserdev.bustrips.MainActivity.destination_id_list;
 import static com.kaiserdev.bustrips.MainActivity.destination_list;
+import static com.kaiserdev.bustrips.MainActivity.driver_id_list;
+import static com.kaiserdev.bustrips.MainActivity.driver_list;
+import static com.kaiserdev.bustrips.MainActivity.driver_person_id_list;
+import static com.kaiserdev.bustrips.MainActivity.driver_school_id_list;
+import static com.kaiserdev.bustrips.MainActivity.vehicle_id_list;
+import static com.kaiserdev.bustrips.MainActivity.vehicle_list;
 
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.ActivityInfo;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AlertDialog;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.StringRequest;
-import com.google.android.material.bottomsheet.BottomSheetDialog;
-
-import java.io.IOException;
-import java.io.InputStream;
+import android.widget.Toast;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -106,6 +107,7 @@ public class ProfileFragment extends Fragment {
         ImageView picture = (ImageView) view.findViewById(R.id.pic);
 
         Button logout = (Button) view.findViewById(R.id.logout);
+        Button trip_details_button = (Button) view.findViewById(R.id.button_trip_details);
         Button save = (Button) view.findViewById(R.id.save);
 
 
@@ -128,11 +130,24 @@ public class ProfileFragment extends Fragment {
                                 editor.putString(LNAME_KEY, null);
                                 editor.putString(PROFILE_PIC_KEY, null);
                                 editor.putString(DESTINATION_KEY, null);
+                                editor.putString(DRIVER_KEY, null);
+                                editor.putString(DRIVER_DATA_KEY, null);
+                                editor.putString(DRIVER_DATA_ID_KEY, null);
+                                editor.putString(VEHICLE_DATA_KEY, null);
+                                editor.putString(VEHICLE_DATA_ID_KEY, null);
                                 editor.apply();
 
                                 destination_id_list.clear();
                                 destination_list.clear();
                                 destination_fare_list.clear();
+
+                                driver_list.clear();
+                                driver_id_list.clear();
+                                driver_school_id_list.clear();
+                                driver_person_id_list.clear();
+
+                                vehicle_list.clear();
+                                vehicle_id_list.clear();
 
                                 Intent intent = new Intent(getActivity(), Login.class);
                                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -148,6 +163,76 @@ public class ProfileFragment extends Fragment {
                 AlertDialog alert = altdial.create();
                 alert.setTitle("Logout");
                 alert.show();
+            }
+        });
+        trip_details_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setTitle("Select Driver");
+                builder.setMessage(null);
+                builder.setSingleChoiceItems(driver_list.toArray(new CharSequence[0]), -1, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int which) {
+                        String selectedDriver = driver_list.get(which);
+                        String selectedDriver_id = driver_id_list.get(which);
+
+                        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+                        editor.putString(DRIVER_DATA_KEY, selectedDriver);
+                        editor.putString(DRIVER_DATA_ID_KEY, selectedDriver_id);
+                        editor.apply();
+                    }
+                });
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
+
+                builder.setPositiveButton("Set", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        builder.setTitle("Select Vehicle");
+                        builder.setMessage(null);
+                        builder.setSingleChoiceItems(vehicle_list.toArray(new CharSequence[0]), -1, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int which) {
+                                String selectedVehicle = vehicle_list.get(which);
+                                String selectedVehicle_id = vehicle_id_list.get(which);
+
+                                SharedPreferences sharedPreferences = getActivity().getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
+                                SharedPreferences.Editor editor = sharedPreferences.edit();
+
+                                editor.putString(VEHICLE_DATA_KEY, selectedVehicle);
+                                editor.putString(VEHICLE_DATA_ID_KEY, selectedVehicle_id);
+                                editor.apply();
+
+                            }
+                        });
+                        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                            }
+                        });
+                        builder.setPositiveButton("Set", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+
+                                String name = sharedPreferences.getString(DRIVER_DATA_KEY,null);
+                                String vehicle = sharedPreferences.getString(VEHICLE_DATA_KEY,null);
+
+                                Toast.makeText(getContext(), "Driver: "+ name + " Vehicle: "+vehicle, Toast.LENGTH_LONG).show();
+
+                                dialogInterface.dismiss();
+                            }
+                        }).create().show();
+                    }
+                }).create().show();
+
             }
         });
 

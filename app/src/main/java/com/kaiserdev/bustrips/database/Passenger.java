@@ -12,8 +12,8 @@ public class Passenger {
     @ColumnInfo(name = "conductor_id")
     public String conductor_id;
 
-    @ColumnInfo(name = "bus_id")
-    public String bus_id;
+    @ColumnInfo(name = "vehicle_id")
+    public String vehicle_id;
 
     @ColumnInfo(name = "destination_id")
     public String destination_id;

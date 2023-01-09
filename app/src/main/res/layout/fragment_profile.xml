@@ -67,13 +67,12 @@
             app:layout_constraintTop_toBottomOf="@+id/user_id" />
 
         <Button
-            android:id="@+id/button_bus_details"
+            android:id="@+id/button_trip_details"
             android:layout_width="220dp"
             android:layout_height="60dp"
-            android:layout_marginTop="0dp"
             android:clickable="true"
             android:fontFamily="@font/bold"
-            android:text="Set Vehicle Details"
+            android:text="Set Trip Details"
             android:textAllCaps="false"
             app:cornerRadius="30dp"
             app:layout_constraintEnd_toEndOf="parent"

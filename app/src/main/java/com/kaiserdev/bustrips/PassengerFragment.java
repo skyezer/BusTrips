@@ -171,7 +171,6 @@ public class PassengerFragment extends Fragment {
                         builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-//                                builder.setView(sp);
                                 builder.setTitle("Destination");
                                 builder.setMessage(null);
                                 builder.setSingleChoiceItems(destination_list.toArray(new CharSequence[0]), -1, new DialogInterface.OnClickListener() {
@@ -194,7 +193,6 @@ public class PassengerFragment extends Fragment {
                                     @Override
                                     public void onClick(DialogInterface dialogInterface, int i) {
                                         //TODO clear temp passenger data
-
                                         String name = sharedPreferences.getString(TEMP_PASSENGER_NAME_KEY,null);
                                         String destination_id = sharedPreferences.getString(TEMP_PASSENGER_DESTINATION_ID_KEY,null);
                                         String destination = sharedPreferences.getString(TEMP_PASSENGER_DESTINATION_KEY,null);
