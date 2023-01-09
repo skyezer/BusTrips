@@ -1,14 +1,22 @@
 package com.kaiserdev.bustrips;
 
 import static com.kaiserdev.bustrips.MainActivity.DESTINATION_KEY;
+import static com.kaiserdev.bustrips.MainActivity.DRIVER_DATA_ID_KEY;
+import static com.kaiserdev.bustrips.MainActivity.DRIVER_DATA_KEY;
 import static com.kaiserdev.bustrips.MainActivity.SHARED_PREFS;
 import static com.kaiserdev.bustrips.MainActivity.STUDENT_ID_KEY;
 import static com.kaiserdev.bustrips.MainActivity.TEMP_PASSENGER_DESTINATION_ID_KEY;
 import static com.kaiserdev.bustrips.MainActivity.TEMP_PASSENGER_DESTINATION_KEY;
 import static com.kaiserdev.bustrips.MainActivity.TEMP_PASSENGER_ID_KEY;
 import static com.kaiserdev.bustrips.MainActivity.TEMP_PASSENGER_NAME_KEY;
+import static com.kaiserdev.bustrips.MainActivity.VEHICLE_DATA_ID_KEY;
+import static com.kaiserdev.bustrips.MainActivity.VEHICLE_DATA_KEY;
 import static com.kaiserdev.bustrips.MainActivity.destination_id_list;
 import static com.kaiserdev.bustrips.MainActivity.destination_list;
+import static com.kaiserdev.bustrips.MainActivity.driver_id_list;
+import static com.kaiserdev.bustrips.MainActivity.driver_list;
+import static com.kaiserdev.bustrips.MainActivity.vehicle_id_list;
+import static com.kaiserdev.bustrips.MainActivity.vehicle_list;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -215,7 +223,81 @@ public class PassengerFragment extends Fragment {
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                animateFab();
+                String driver_data = sharedPreferences.getString(DRIVER_DATA_KEY,null);
+                String vehicle_data = sharedPreferences.getString(VEHICLE_DATA_KEY,null);
+
+                if (driver_data == null && vehicle_data == null){
+                    Toast.makeText(getContext(), "Please set first Driver and Vehicle Details", Toast.LENGTH_LONG).show();
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                    builder.setTitle("Select Driver");
+                    builder.setMessage(null);
+                    builder.setSingleChoiceItems(driver_list.toArray(new CharSequence[0]), -1, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int which) {
+                            String selectedDriver = driver_list.get(which);
+                            String selectedDriver_id = driver_id_list.get(which);
+
+                            SharedPreferences sharedPreferences = getActivity().getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+
+                            editor.putString(DRIVER_DATA_KEY, selectedDriver);
+                            editor.putString(DRIVER_DATA_ID_KEY, selectedDriver_id);
+                            editor.apply();
+                        }
+                    });
+                    builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.dismiss();
+                        }
+                    });
+
+                    builder.setPositiveButton("Set", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            builder.setTitle("Select Vehicle");
+                            builder.setMessage(null);
+                            builder.setSingleChoiceItems(vehicle_list.toArray(new CharSequence[0]), -1, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int which) {
+                                    String selectedVehicle = vehicle_list.get(which);
+                                    String selectedVehicle_id = vehicle_id_list.get(which);
+
+                                    SharedPreferences sharedPreferences = getActivity().getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
+                                    SharedPreferences.Editor editor = sharedPreferences.edit();
+
+                                    editor.putString(VEHICLE_DATA_KEY, selectedVehicle);
+                                    editor.putString(VEHICLE_DATA_ID_KEY, selectedVehicle_id);
+                                    editor.apply();
+
+                                }
+                            });
+                            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    dialogInterface.dismiss();
+                                }
+                            });
+                            builder.setPositiveButton("Set", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+
+                                    String name = sharedPreferences.getString(DRIVER_DATA_KEY,null);
+                                    String vehicle = sharedPreferences.getString(VEHICLE_DATA_KEY,null);
+
+                                    Toast.makeText(getContext(), "Driver: "+ name + " Vehicle: "+vehicle, Toast.LENGTH_LONG).show();
+
+                                    dialogInterface.dismiss();
+                                }
+                            }).create().show();
+                        }
+                    }).create().show();
+                }
+                else {
+                    animateFab();
+                }
+
             }
 
         });
@@ -257,70 +339,4 @@ public class PassengerFragment extends Fragment {
             isOpen = true;
         }
     }
-
-
-//TODO Clean up
-
-//    private void JSONCatcher() {
-//
-//        mRequestQueue = Volley.newRequestQueue(getContext());
-//        mStringRequest = new StringRequest(Request.Method.POST,
-//                getBaseUrl(), new Response.Listener<String>() {
-//            @Override
-//            public void onResponse(String response) {
-//
-//                sharedPreferences = getActivity().getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
-//                SharedPreferences.Editor editor = sharedPreferences.edit();
-//                editor.putString(DESTINATION_KEY, response);
-//                editor.apply();
-//
-//                sharedDestination_list = sharedPreferences.getString(DESTINATION_KEY, null);
-//
-//                try {
-//                    JSONObject jsonObject = new JSONObject(response);
-//                    JSONArray jsonArray = jsonObject.getJSONArray("data");
-//                    for (int i = 0; i < jsonArray.length(); i++) {
-//                        JSONObject jo = jsonArray.getJSONObject(i);
-//                        String destination = jo.getString("destination_name");
-//                        String id = jo.getString("id");
-//                        String fare = jo.getString("fare");
-//                        destination_list.add(destination);
-//                        destination_id_list.add(id);
-//                    }
-//                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-//                    builder.setTitle("TEST");
-//                    builder.setMessage(response + destination_list + destination_id_list + '\n' + '\n' + sharedDestination_list);
-//                    builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-//                        @Override
-//                        public void onClick(DialogInterface dialogInterface, int i) {
-//                            dialogInterface.dismiss();
-//                        }
-//                    }).show();
-//                } catch (JSONException e) {
-//                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-//                    builder.setTitle("TEST");
-//                    builder.setMessage(e.toString());
-//                    builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-//                        @Override
-//                        public void onClick(DialogInterface dialogInterface, int i) {
-//                            dialogInterface.dismiss();
-//                        }
-//                    }).show();
-//                }
-//            }
-//        }, new Response.ErrorListener() {
-//            @Override
-//            public void onErrorResponse(VolleyError error) {
-//                Toast.makeText(getContext(),error.toString(),Toast.LENGTH_SHORT).show();
-//            }
-//        });
-//        mStringRequest.setShouldCache(false);
-//        mRequestQueue.add(mStringRequest);
-//    }
-
 }
-
-/*
-TODO Database catcher (driver's name for dropdown) see change_pass1.php
-TODO Destination catcher (destination name for dropdown)
-*/

@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
     ActivityMainBinding binding;
 
     public static final String SHARED_PREFS = "shared_prefs";
-
+    //DATA FROM USER
     public static final String STUDENT_ID_KEY = "student_id_key";
     public static final String FNAME_KEY = "fname_key";
     public static final String LNAME_KEY = "lname_key";
@@ -135,14 +135,6 @@ public class MainActivity extends AppCompatActivity {
             }
             return  true;
         });
-
-//        sharedDestination_list = sharedPreferences.getString(DESTINATION_KEY, null);
-        //TODO broken
-//        if (sharedDestination_list == null) {
-//            JSONCatcher("destination", DESTINATION_KEY);
-//        }
-
-
     }
 
     private void Destination_toList() {
@@ -243,12 +235,13 @@ public class MainActivity extends AppCompatActivity {
 
                     // Change always depending on the column name in the database
                     String vehicle_number = jo.getString("vehicle_number");
+                    String vehicle_alias = jo.getString("vehicle_alias");
                     String id = jo.getString("id");
                     String model = jo.getString("model");
                     String plate_no = jo.getString("plate_no");
                     String color = jo.getString("color");
 
-                    vehicle_list.add("Vehicle Number: "+ vehicle_number +" Plate Number: "+ plate_no +" Color: "+ color +" Model: "+ model);
+                    vehicle_list.add(vehicle_alias);
                     vehicle_id_list.add(id);
 
                 }
@@ -324,9 +317,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+
         Destination_toList();
         Driver_toList();
         Vehicle_toList();
+
         if (sharedStudent_id == null && sharedLname == null){
             Intent intent = new Intent(MainActivity.this, Login.class);
             startActivity(intent);

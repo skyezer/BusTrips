@@ -9,11 +9,9 @@ import static com.kaiserdev.bustrips.MainActivity.STUDENT_ID_KEY;
 import static com.kaiserdev.bustrips.MainActivity.FNAME_KEY;
 import static com.kaiserdev.bustrips.MainActivity.LNAME_KEY;
 import static com.kaiserdev.bustrips.MainActivity.PROFILE_PIC_KEY;
-import static com.kaiserdev.bustrips.MainActivity.TEMP_PASSENGER_DESTINATION_ID_KEY;
-import static com.kaiserdev.bustrips.MainActivity.TEMP_PASSENGER_DESTINATION_KEY;
-import static com.kaiserdev.bustrips.MainActivity.TEMP_PASSENGER_NAME_KEY;
 import static com.kaiserdev.bustrips.MainActivity.VEHICLE_DATA_ID_KEY;
 import static com.kaiserdev.bustrips.MainActivity.VEHICLE_DATA_KEY;
+import static com.kaiserdev.bustrips.MainActivity.VEHICLE_KEY;
 import static com.kaiserdev.bustrips.MainActivity.destination_fare_list;
 import static com.kaiserdev.bustrips.MainActivity.destination_id_list;
 import static com.kaiserdev.bustrips.MainActivity.destination_list;
@@ -122,15 +120,16 @@ public class ProfileFragment extends Fragment {
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-
                                 SharedPreferences sharedPreferences = getActivity().getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
                                 SharedPreferences.Editor editor = sharedPreferences.edit();
+
                                 editor.putString(STUDENT_ID_KEY, null);
                                 editor.putString(FNAME_KEY, null);
                                 editor.putString(LNAME_KEY, null);
                                 editor.putString(PROFILE_PIC_KEY, null);
                                 editor.putString(DESTINATION_KEY, null);
                                 editor.putString(DRIVER_KEY, null);
+                                editor.putString(VEHICLE_KEY, null);
                                 editor.putString(DRIVER_DATA_KEY, null);
                                 editor.putString(DRIVER_DATA_ID_KEY, null);
                                 editor.putString(VEHICLE_DATA_KEY, null);
@@ -149,9 +148,10 @@ public class ProfileFragment extends Fragment {
                                 vehicle_list.clear();
                                 vehicle_id_list.clear();
 
-                                Intent intent = new Intent(getActivity(), Login.class);
+                                Intent intent = new Intent(getActivity(), MainActivity.class);
                                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 startActivity(intent);
+
                             }
                         })
                         .setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -226,7 +226,6 @@ public class ProfileFragment extends Fragment {
                                 String vehicle = sharedPreferences.getString(VEHICLE_DATA_KEY,null);
 
                                 Toast.makeText(getContext(), "Driver: "+ name + " Vehicle: "+vehicle, Toast.LENGTH_LONG).show();
-
                                 dialogInterface.dismiss();
                             }
                         }).create().show();
