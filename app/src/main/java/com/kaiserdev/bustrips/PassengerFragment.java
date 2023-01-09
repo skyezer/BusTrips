@@ -17,7 +17,9 @@ import android.os.Bundle;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.appcompat.app.AlertDialog;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -116,8 +118,6 @@ public class PassengerFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_passenger, container, false);
 
         //Variables
-        final ArrayAdapter<String> adp = new ArrayAdapter<String>(getContext(),
-                android.R.layout.simple_spinner_item, destination_list);
 
         sharedPreferences = getActivity().getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
         sharedStudent_id = sharedPreferences.getString(STUDENT_ID_KEY, null);
@@ -128,6 +128,8 @@ public class PassengerFragment extends Fragment {
 
         manual_input = view.findViewById(R.id.textView_manual_input);
         qr_scan = view.findViewById(R.id.textView_qr);
+
+
 
         fab_qr.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -155,14 +157,16 @@ public class PassengerFragment extends Fragment {
                         String stud_name = jsonObject.getString("stud_name");
                         String course = jsonObject.getString("course");
 
-                        final Spinner sp = new Spinner(getContext());
-                        sp.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT));
-                        sp.setAdapter(adp);
-
-
                         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                         builder.setTitle("Result");
                         builder.setMessage(id_num + "\n" + stud_name + "\n" + course);
+
+                        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                            }
+                        });
 
                         builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
                             @Override
@@ -206,8 +210,6 @@ public class PassengerFragment extends Fragment {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-
-//                    qr_fetch(id_num, student_id);
                 }
             });
         });
@@ -318,9 +320,6 @@ public class PassengerFragment extends Fragment {
 //        mRequestQueue.add(mStringRequest);
 //    }
 
-    private String getBaseUrl() {
-        return "http://"+getResources().getString(R.string.machine_ip_address)+"/bustrips/destination.php";
-    }
 }
 
 /*

@@ -64,15 +64,16 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityMainBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
-        replaceFragment(new PassengerFragment());
 
         sharedPreferences = getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
         sharedStudent_id = sharedPreferences.getString(STUDENT_ID_KEY, null);
         sharedFname = sharedPreferences.getString(FNAME_KEY, null);
         sharedLname = sharedPreferences.getString(LNAME_KEY, null);
         sharedProfile_pic = sharedPreferences.getString(PROFILE_PIC_KEY, null);
+
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+        replaceFragment(new PassengerFragment());
 
         binding.bottomNavigationView.setOnItemSelectedListener(item -> {
             Window window = MainActivity.this.getWindow();
